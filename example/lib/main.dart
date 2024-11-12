@@ -12,7 +12,6 @@ class HtmlEditorExampleApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(),
-      darkTheme: ThemeData.dark(),
       home: HtmlEditorExample(title: 'Flutter HTML Editor Example'),
     );
   }
@@ -94,7 +93,7 @@ class _HtmlEditorExampleState extends State<HtmlEditorExample> {
                     return true;
                   },
                 ),
-                otherOptions: OtherOptions(height: 550),
+                otherOptions: OtherOptions(height: MediaQuery.of(context).size.height),
                 callbacks: Callbacks(onBeforeCommand: (String? currentHtml) {
                   print('html before change is $currentHtml');
                 }, onChangeContent: (String? changed) {
@@ -164,234 +163,234 @@ class _HtmlEditorExampleState extends State<HtmlEditorExample> {
                       }),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    TextButton(
-                      style: TextButton.styleFrom(backgroundColor: Colors.blueGrey),
-                      onPressed: () {
-                        controller.undo();
-                      },
-                      child: Text('Undo', style: TextStyle(color: Colors.white)),
-                    ),
-                    SizedBox(
-                      width: 16,
-                    ),
-                    TextButton(
-                      style: TextButton.styleFrom(backgroundColor: Colors.blueGrey),
-                      onPressed: () {
-                        controller.clear();
-                      },
-                      child: Text('Reset', style: TextStyle(color: Colors.white)),
-                    ),
-                    SizedBox(
-                      width: 16,
-                    ),
-                    TextButton(
-                      style: TextButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.secondary),
-                      onPressed: () async {
-                        var txt = await controller.getText();
-                        if (txt.contains('src=\"data:')) {
-                          txt = '<text removed due to base-64 data, displaying the text could cause the app to crash>';
-                        }
-                        setState(() {
-                          result = txt;
-                        });
-                      },
-                      child: Text(
-                        'Submit',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 16,
-                    ),
-                    TextButton(
-                      style: TextButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.secondary),
-                      onPressed: () {
-                        controller.redo();
-                      },
-                      child: Text(
-                        'Redo',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(result),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    TextButton(
-                      style: TextButton.styleFrom(backgroundColor: Colors.blueGrey),
-                      onPressed: () {
-                        controller.disable();
-                      },
-                      child: Text('Disable', style: TextStyle(color: Colors.white)),
-                    ),
-                    SizedBox(
-                      width: 16,
-                    ),
-                    TextButton(
-                      style: TextButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.secondary),
-                      onPressed: () async {
-                        controller.enable();
-                      },
-                      child: Text(
-                        'Enable',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 16),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    TextButton(
-                      style: TextButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.secondary),
-                      onPressed: () {
-                        controller.insertText('Google');
-                      },
-                      child: Text('Insert Text', style: TextStyle(color: Colors.white)),
-                    ),
-                    SizedBox(
-                      width: 16,
-                    ),
-                    TextButton(
-                      style: TextButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.secondary),
-                      onPressed: () {
-                        controller.insertHtml('''<p style="color: blue">Google in blue</p>''');
-                      },
-                      child: Text('Insert HTML', style: TextStyle(color: Colors.white)),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    TextButton(
-                      style: TextButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.secondary),
-                      onPressed: () async {
-                        controller.insertLink('Google linked', 'https://google.com', true);
-                      },
-                      child: Text(
-                        'Insert Link',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 16,
-                    ),
-                    TextButton(
-                      style: TextButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.secondary),
-                      onPressed: () {
-                        controller.insertNetworkImage('https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png',
-                            filename: 'Google network image');
-                      },
-                      child: Text(
-                        'Insert network image',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 16),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    TextButton(
-                      style: TextButton.styleFrom(backgroundColor: Colors.blueGrey),
-                      onPressed: () {
-                        controller.addNotification('Info notification', NotificationType.info);
-                      },
-                      child: Text('Info', style: TextStyle(color: Colors.white)),
-                    ),
-                    SizedBox(
-                      width: 16,
-                    ),
-                    TextButton(
-                      style: TextButton.styleFrom(backgroundColor: Colors.blueGrey),
-                      onPressed: () {
-                        controller.addNotification('Warning notification', NotificationType.warning);
-                      },
-                      child: Text('Warning', style: TextStyle(color: Colors.white)),
-                    ),
-                    SizedBox(
-                      width: 16,
-                    ),
-                    TextButton(
-                      style: TextButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.secondary),
-                      onPressed: () async {
-                        controller.addNotification('Success notification', NotificationType.success);
-                      },
-                      child: Text(
-                        'Success',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 16,
-                    ),
-                    TextButton(
-                      style: TextButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.secondary),
-                      onPressed: () {
-                        controller.addNotification('Danger notification', NotificationType.danger);
-                      },
-                      child: Text(
-                        'Danger',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 16),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    TextButton(
-                      style: TextButton.styleFrom(backgroundColor: Colors.blueGrey),
-                      onPressed: () {
-                        controller.addNotification('Plaintext notification', NotificationType.plaintext);
-                      },
-                      child: Text('Plaintext', style: TextStyle(color: Colors.white)),
-                    ),
-                    SizedBox(
-                      width: 16,
-                    ),
-                    TextButton(
-                      style: TextButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.secondary),
-                      onPressed: () async {
-                        controller.removeNotification();
-                      },
-                      child: Text(
-                        'Remove',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.all(8.0),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.center,
+              //     children: <Widget>[
+              //       TextButton(
+              //         style: TextButton.styleFrom(backgroundColor: Colors.blueGrey),
+              //         onPressed: () {
+              //           controller.undo();
+              //         },
+              //         child: Text('Undo', style: TextStyle(color: Colors.white)),
+              //       ),
+              //       SizedBox(
+              //         width: 16,
+              //       ),
+              //       TextButton(
+              //         style: TextButton.styleFrom(backgroundColor: Colors.blueGrey),
+              //         onPressed: () {
+              //           controller.clear();
+              //         },
+              //         child: Text('Reset', style: TextStyle(color: Colors.white)),
+              //       ),
+              //       SizedBox(
+              //         width: 16,
+              //       ),
+              //       TextButton(
+              //         style: TextButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.secondary),
+              //         onPressed: () async {
+              //           var txt = await controller.getText();
+              //           if (txt.contains('src=\"data:')) {
+              //             txt = '<text removed due to base-64 data, displaying the text could cause the app to crash>';
+              //           }
+              //           setState(() {
+              //             result = txt;
+              //           });
+              //         },
+              //         child: Text(
+              //           'Submit',
+              //           style: TextStyle(color: Colors.white),
+              //         ),
+              //       ),
+              //       SizedBox(
+              //         width: 16,
+              //       ),
+              //       TextButton(
+              //         style: TextButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.secondary),
+              //         onPressed: () {
+              //           controller.redo();
+              //         },
+              //         child: Text(
+              //           'Redo',
+              //           style: TextStyle(color: Colors.white),
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              // Padding(
+              //   padding: const EdgeInsets.all(8.0),
+              //   child: Text(result),
+              // ),
+              // Padding(
+              //   padding: const EdgeInsets.all(8.0),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.center,
+              //     children: <Widget>[
+              //       TextButton(
+              //         style: TextButton.styleFrom(backgroundColor: Colors.blueGrey),
+              //         onPressed: () {
+              //           controller.disable();
+              //         },
+              //         child: Text('Disable', style: TextStyle(color: Colors.white)),
+              //       ),
+              //       SizedBox(
+              //         width: 16,
+              //       ),
+              //       TextButton(
+              //         style: TextButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.secondary),
+              //         onPressed: () async {
+              //           controller.enable();
+              //         },
+              //         child: Text(
+              //           'Enable',
+              //           style: TextStyle(color: Colors.white),
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              // SizedBox(height: 16),
+              // Padding(
+              //   padding: const EdgeInsets.all(8.0),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.center,
+              //     children: <Widget>[
+              //       TextButton(
+              //         style: TextButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.secondary),
+              //         onPressed: () {
+              //           controller.insertText('Google');
+              //         },
+              //         child: Text('Insert Text', style: TextStyle(color: Colors.white)),
+              //       ),
+              //       SizedBox(
+              //         width: 16,
+              //       ),
+              //       TextButton(
+              //         style: TextButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.secondary),
+              //         onPressed: () {
+              //           controller.insertHtml('''<p style="color: blue">Google in blue</p>''');
+              //         },
+              //         child: Text('Insert HTML', style: TextStyle(color: Colors.white)),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              // Padding(
+              //   padding: const EdgeInsets.all(8.0),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.center,
+              //     children: <Widget>[
+              //       TextButton(
+              //         style: TextButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.secondary),
+              //         onPressed: () async {
+              //           controller.insertLink('Google linked', 'https://google.com', true);
+              //         },
+              //         child: Text(
+              //           'Insert Link',
+              //           style: TextStyle(color: Colors.white),
+              //         ),
+              //       ),
+              //       SizedBox(
+              //         width: 16,
+              //       ),
+              //       TextButton(
+              //         style: TextButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.secondary),
+              //         onPressed: () {
+              //           controller.insertNetworkImage('https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png',
+              //               filename: 'Google network image');
+              //         },
+              //         child: Text(
+              //           'Insert network image',
+              //           style: TextStyle(color: Colors.white),
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              // SizedBox(height: 16),
+              // Padding(
+              //   padding: const EdgeInsets.all(8.0),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.center,
+              //     children: <Widget>[
+              //       TextButton(
+              //         style: TextButton.styleFrom(backgroundColor: Colors.blueGrey),
+              //         onPressed: () {
+              //           controller.addNotification('Info notification', NotificationType.info);
+              //         },
+              //         child: Text('Info', style: TextStyle(color: Colors.white)),
+              //       ),
+              //       SizedBox(
+              //         width: 16,
+              //       ),
+              //       TextButton(
+              //         style: TextButton.styleFrom(backgroundColor: Colors.blueGrey),
+              //         onPressed: () {
+              //           controller.addNotification('Warning notification', NotificationType.warning);
+              //         },
+              //         child: Text('Warning', style: TextStyle(color: Colors.white)),
+              //       ),
+              //       SizedBox(
+              //         width: 16,
+              //       ),
+              //       TextButton(
+              //         style: TextButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.secondary),
+              //         onPressed: () async {
+              //           controller.addNotification('Success notification', NotificationType.success);
+              //         },
+              //         child: Text(
+              //           'Success',
+              //           style: TextStyle(color: Colors.white),
+              //         ),
+              //       ),
+              //       SizedBox(
+              //         width: 16,
+              //       ),
+              //       TextButton(
+              //         style: TextButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.secondary),
+              //         onPressed: () {
+              //           controller.addNotification('Danger notification', NotificationType.danger);
+              //         },
+              //         child: Text(
+              //           'Danger',
+              //           style: TextStyle(color: Colors.white),
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              // SizedBox(height: 16),
+              // Padding(
+              //   padding: const EdgeInsets.all(8.0),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.center,
+              //     children: <Widget>[
+              //       TextButton(
+              //         style: TextButton.styleFrom(backgroundColor: Colors.blueGrey),
+              //         onPressed: () {
+              //           controller.addNotification('Plaintext notification', NotificationType.plaintext);
+              //         },
+              //         child: Text('Plaintext', style: TextStyle(color: Colors.white)),
+              //       ),
+              //       SizedBox(
+              //         width: 16,
+              //       ),
+              //       TextButton(
+              //         style: TextButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.secondary),
+              //         onPressed: () async {
+              //           controller.removeNotification();
+              //         },
+              //         child: Text(
+              //           'Remove',
+              //           style: TextStyle(color: Colors.white),
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
             ],
           ),
         ),
