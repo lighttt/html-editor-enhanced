@@ -7,7 +7,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:flutter_keyboard_visibility_temp_fork/flutter_keyboard_visibility_temp_fork.dart';
+import 'package:keyboard_detection/keyboard_detection.dart';
 import 'package:html_editor_enhanced/html_editor.dart' hide NavigationActionPolicy, UserScript, ContextMenu;
 import 'package:html_editor_enhanced/utils/utils.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -457,8 +457,9 @@ class _HtmlEditorWidgetMobileState extends State<HtmlEditorWidget> {
                       }
                       //reset the editor's height if the keyboard disappears at any point
                       if (widget.htmlEditorOptions.adjustHeightForKeyboard) {
-                        var keyboardVisibilityController = KeyboardVisibilityController();
-                        keyboardVisibilityController.onChange.listen((bool visible) {
+                        var keyboardDetectionController = KeyboardDetectionController();
+                        keyboardDetectionController.stream.listen((KeyboardState state) {
+                          var visible = state == KeyboardState.visible;
                           if (!visible && mounted) {
                             controller.clearFocus();
                             resetHeight();
